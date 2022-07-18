@@ -35,6 +35,19 @@ target_link_libraries(helloworld_cli PRIVATE
     helloworld_lib
 )
 
+# Google test
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG release-1.12.1
+)
+
+# configure build of googletest
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 add_executable(test_version test_version.cpp)
 
 # Google test requires at least C++14
@@ -49,8 +62,12 @@ target_link_libraries(test_version
 )
 
 include(GoogleTest)
-gtest_discover_tests(test_version)
-add_test(test_version test_version)
+gtest_discover_tests(test_version
+  PROPERTIES
+    LABELS "unit"
+  DISCOVERY_TIMEOUT  # how long to wait (in seconds) before crashing
+    240
+)
 
 # created build directory to store all the build files
 # cmake .. (from /build directory) - run cmake to generate files for building the project (e.g. Makefile, CMakeCache.txt, *.sln, etc.)
