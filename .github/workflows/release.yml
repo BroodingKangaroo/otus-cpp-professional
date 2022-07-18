@@ -24,7 +24,7 @@ jobs:
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
       #- run: cmake --build . --target test
-      - run: cmake --build . --target package
+      #- run: cmake --build . --target package
   release:
     # run the job only if the head commit contains the word "--release"
     if: endsWith(github.event.head_commit.message, '--release')
