@@ -1,0 +1,50 @@
+# name of the workflow to be displayed in the github interface
+name: "otus-cpp-professional CI"
+
+# criterias on which jobs are triggered
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # the name of the job
+  build:
+    # the environment (latest version of ubuntu in this case)
+    runs-on: ubuntu-latest
+    # the list of the steps (will be executed one after another)
+    steps:
+      # uses - use the already written action (in this case, download current repository to the local machine)
+      - uses: actions/checkout@v2
+        # with - allows to pass parameters to the action
+        with:
+          submodules: true
+      # run - runs a system-specific command (in this case, shell-command because the system is ubuntu)
+      - run: sudo apt-get update && sudo apt-get install libgtest-dev
+      - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake --build .
+      - run: cmake --build . --target test
+      - run: cmake --build . --target package
+      # complex step to create release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: "Release v${{ github.run_number }}"
+          draft: false
+          prerelease: false
+      # step to upload the package to the github repository as a release
+      # (if we exclude this step the release will be created but without artifacts inside)
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: package/otus-cpp-professional-v${{ github.run_number }}.deb
+          asset_name: otus-cpp-professional-v${{ github.run_number }}.deb
+          asset_content_type: application/vnd.debian.binary-package

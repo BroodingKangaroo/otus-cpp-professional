@@ -7,7 +7,7 @@ set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 # set name and version of the project
-project(helloworld VERSION ${PROJECT_VERSION})
+project(hw-01-helloworld VERSION ${PROJECT_VERSION})
 
 # configure a header file to pass version number to the source code
 configure_file(version.h.in version.h)
@@ -27,16 +27,13 @@ set_target_properties(helloworld_cli helloworld_lib PROPERTIES
 # since the configured header (version.h in this case) will be written to the build directory,
 # we must add that directory to the list of paths to search for include files
 target_include_directories(helloworld_lib PRIVATE
-    ${CMAKE_BINARY_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # link the library helloworld_lib to the executable helloworld_cli
 target_link_libraries(helloworld_cli PRIVATE
     helloworld_lib
 )
-
-
-
 
 # created build directory to store all the build files
 # cmake .. (from /build directory) - run cmake to generate files for building the project (e.g. Makefile, CMakeCache.txt, *.sln, etc.)
