@@ -69,9 +69,23 @@ gtest_discover_tests(test_version
     240
 )
 
+install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
+
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_CONTACT max.golovatyi@gmail.com)
+include(CPack)
+
 # created build directory to store all the build files
 # cmake .. (from /build directory) - run cmake to generate files for building the project (e.g. Makefile, CMakeCache.txt, *.sln, etc.)
 # cmake --build . (from /build directory) - build the project (e.g. make)
 # cmake --build . --target helloworld_cli - build the specific target
 # cmake --install . (from /build directory) - install the project (e.g. make install)
 # cmake --open . (from /build directory) - open the project in Visual Studio
+
+# to run tests locally (from /build directory)
+# cmake ..
+# cmake --build . --target test_version
+# cmake --build . --target RUN_TESTS

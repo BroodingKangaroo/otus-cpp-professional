@@ -21,10 +21,10 @@ jobs:
           submodules: true
       # run - runs a system-specific command (in this case, shell-command because the system is ubuntu)
       - run: sudo apt-get update && sudo apt-get install libgtest-dev
-      - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_INSTALL_PREFIX=../install
       - run: cmake --build .
       - run: cmake --build . --target test
-      #- run: cmake --build . --target package
+      - run: cmake --build . --target package
   release:
     # run the job only if the head commit contains the word "--release"
     if: endsWith(github.event.head_commit.message, '--release')
