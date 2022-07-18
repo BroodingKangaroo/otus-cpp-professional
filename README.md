@@ -1,1 +1,1 @@
-# otus-cpp-professional
+# Otus C++ Professional
