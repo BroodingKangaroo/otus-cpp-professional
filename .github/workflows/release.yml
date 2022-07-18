@@ -23,8 +23,13 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install libgtest-dev
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
-      - run: cmake --build . --target test
+      #- run: cmake --build . --target test
       - run: cmake --build . --target package
+  release:
+    # run the job only if the head commit contains the word "--release"
+    if: endsWith(github.event.head_commit.message, '--release')
+    runs-on: ubuntu-latest
+    steps:
       # complex step to create release
       - name: Create Release
         id: create_release
@@ -36,7 +41,7 @@ jobs:
           release_name: "Release v${{ github.run_number }}"
           draft: false
           prerelease: false
-      # step to upload the package to the github repository as a release
+      # step to upload the package to the github repository as a part of release
       # (if we exclude this step the release will be created but without artifacts inside)
       - name: Upload Release Asset
         id: upload-release-asset
