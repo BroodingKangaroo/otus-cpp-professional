@@ -69,6 +69,7 @@ gtest_discover_tests(test_version
     240
 )
 
+# determine what exactly will be packed into a build artifact
 install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
