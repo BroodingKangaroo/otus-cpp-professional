@@ -26,6 +26,7 @@ jobs:
       - run: cmake --build . --target test
       - run: cmake --build . --target package
   release:
+    needs: build
     # run the job only if the head commit contains the word "--release"
     if: contains(github.event.head_commit.message, '--release')
     runs-on: ubuntu-latest
