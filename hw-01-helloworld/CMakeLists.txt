@@ -35,6 +35,23 @@ target_link_libraries(helloworld_cli PRIVATE
     helloworld_lib
 )
 
+add_executable(test_version test_version.cpp)
+
+# Google test requires at least C++14
+set_target_properties(test_version PROPERTIES
+    CXX_STANDARD 14
+    CXX_STANDARD_REQUIRED ON
+)
+
+target_link_libraries(test_version
+    GTest::gtest_main
+    helloworld_lib
+)
+
+include(GoogleTest)
+gtest_discover_tests(test_version)
+add_test(test_version test_version)
+
 # created build directory to store all the build files
 # cmake .. (from /build directory) - run cmake to generate files for building the project (e.g. Makefile, CMakeCache.txt, *.sln, etc.)
 # cmake --build . (from /build directory) - build the project (e.g. make)
