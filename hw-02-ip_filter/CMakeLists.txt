@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
+set(PROJECT_VERSION 0.0.${PATCH_VERSION})
+
 project(hw-02-ip_filter VERSION ${PROJECT_VERSION})
 
 add_executable(ip_filter_cli main.cpp)
