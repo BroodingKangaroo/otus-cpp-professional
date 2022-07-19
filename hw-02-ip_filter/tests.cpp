@@ -6,7 +6,6 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
-#include <openssl/md5.h>
 
 TEST(HW02_IpFilter, TestCreation) {
     std::string testData = "1.1.1.1\t0\t0\n"
