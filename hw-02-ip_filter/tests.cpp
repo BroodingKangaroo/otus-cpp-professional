@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <fstream>
-// #include <openssl/md5.h>
+#include <openssl/md5.h>
 
 TEST(HW02_IpFilter, TestCreation) {
     std::string testData = "1.1.1.1\t0\t0\n"
@@ -76,19 +76,33 @@ TEST(HW02_IpFilter, TestSortFilter) {
     EXPECT_EQ(expectedTestData, ssOut.str());
 }
 
-TEST(HW02_IpFilter, TestHashSum) {
+TEST(HW02_IpFilter, TestMultipleOperations) {
     std::string testData = "1.10.1.1\t0\t0\n"
     "2.2.1.1\t0\t0\n"
     "3.1.1.1\t0\t0\n"
     "2.3.4.1\t0\t0";
-    std::string expectedTestData = "2.3.4.1\n"
-    "2.2.1.1\n";
     std::stringstream ss(testData);
-    std::stringstream ssOut;
-    IpFilter::makeFilter(ss).sort([](const Ip & lhs, const Ip & rhs) {
+    auto ipFilter = IpFilter::makeFilter(ss).sort([](const Ip & lhs, const Ip & rhs) {
         return std::tie(lhs.a, lhs.b, lhs.c, lhs.d) > std::tie(rhs.a, rhs.b, rhs.c, rhs.d);
-    }).filter([](const Ip & ip){
-        return ip.a == 2;
-    }).print(ssOut);
-    EXPECT_EQ(expectedTestData, ssOut.str());
+    });
+
+    {
+        std::stringstream ssOut;
+        std::string expectedTestData = "2.3.4.1\n"
+        "2.2.1.1\n";
+        ipFilter.filter([](const Ip & ip){
+            return ip.a == 2;
+        }).print(ssOut);
+        EXPECT_EQ(expectedTestData, ssOut.str());
+    }
+
+    {
+        std::stringstream ssOut;
+        std::string expectedTestData = "2.3.4.1\n"
+        "1.10.1.1\n";
+        ipFilter.filter([](const Ip & ip){
+            return ip.a == 1 || ip.b == 3;
+        }).print(ssOut);
+        EXPECT_EQ(expectedTestData, ssOut.str());
+    }
 }

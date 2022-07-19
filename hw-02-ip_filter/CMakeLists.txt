@@ -26,11 +26,8 @@ set_target_properties(tests PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-find_package(OpenSSL REQUIRED COMPONENTS Crypto)
-
 target_link_libraries(tests
     GTest::gtest_main
-    OpenSSL::Crypto
     ip_filter_lib
 )
 
