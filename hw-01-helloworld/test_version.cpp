@@ -2,6 +2,6 @@
 
 #include <gtest/gtest.h>
 
-TEST(HelloWorld, TestVersion) {
+TEST(HW01_HelloWorld, TestVersion) {
     EXPECT_TRUE(version() > 0);
 }
