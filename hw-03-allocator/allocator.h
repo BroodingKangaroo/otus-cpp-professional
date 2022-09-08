@@ -11,6 +11,7 @@
 #include <array>
 #include <stdexcept>
 #include <cassert>
+#include <memory>
 
 
 template <typename T, std::size_t max_size>
