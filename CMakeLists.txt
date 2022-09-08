@@ -24,3 +24,4 @@ enable_testing()
 
 add_subdirectory(hw-01-helloworld)
 add_subdirectory(hw-02-ip_filter)
+add_subdirectory(hw-03-allocator)

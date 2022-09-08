@@ -74,3 +74,6 @@ include(CPack)
 # cmake ..
 # cmake --build . --target test_version
 # cmake --build . --target RUN_TESTS
+
+# pipeline to build and run tests
+# rm -r * ; cmake ..; cmake --build . ; cmake --build . --target RUN_TESTS -v

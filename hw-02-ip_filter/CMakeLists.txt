@@ -17,20 +17,20 @@ target_link_libraries(ip_filter_cli PRIVATE
     ip_filter_lib
 )
 
-add_executable(tests tests.cpp)
+add_executable(hw02-tests tests.cpp)
 
-set_target_properties(tests PROPERTIES
+set_target_properties(hw02-tests PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
 
-target_link_libraries(tests
+target_link_libraries(hw02-tests
     GTest::gtest_main
     ip_filter_lib
 )
 
 include(GoogleTest)
-gtest_discover_tests(tests
+gtest_discover_tests(hw02-tests
   PROPERTIES
     LABELS "unit"
   DISCOVERY_TIMEOUT  # how long to wait (in seconds) before crashing
