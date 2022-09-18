@@ -14,6 +14,6 @@ jobs:
         run: sudo apt-get install graphviz -y
         shell: bash
       # Action to generate gh pages
-      - uses: DenverCoder1/doxygen-github-pages-action@v1.1.0
+      - uses: DenverCoder1/doxygen-github-pages-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
